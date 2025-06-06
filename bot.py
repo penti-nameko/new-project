@@ -46,7 +46,7 @@ async def on_ready():
 # --- 起動時ログ（"ログ"チャンネルを検索） ---
 
 @bot.event
-    print(f"[INFO] Bot Online: {bot.user}")
+print(f"[INFO] Bot Online: {bot.user}")
     # 各サーバーごとに"ログ"チャンネルを探してメッセージ送信
 @bot.event
 async def on_ready():
