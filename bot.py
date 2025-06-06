@@ -9,6 +9,12 @@ import signal
 
 @bot.event
 async def on_ready():
+    print(f"✅ ログイン成功: {bot.user}")
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game("起動中..."))
+
+
+@bot.event
+async def on_ready():
     await bot.tree.sync()
     print("スラッシュコマンドを同期しました。")
 
