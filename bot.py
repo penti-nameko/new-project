@@ -35,7 +35,7 @@ async def send_content(channel: discord.abc.Messageable, message: str = None, fi
 
 @bot.event
 async def on_ready():
-    print(f"[INFO] Bot Online: {bot.user}")
+    print("[INFO] Bot Online: {}".format(bot.user))
     await bot.change_presence(activity=discord.Game(name="/help_me でコマンドを見る"))
     
     # 🔽 コマンドを同期する
