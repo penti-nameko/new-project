@@ -19,9 +19,13 @@ def start_health_server():
 
 threading.Thread(target=start_health_server, daemon=True).start()
 
+# ✅ Intents の設定（ここが追加点）
+intents = discord.Intents.default()
+intents.message_content = True  # メッセージ内容の取得を許可
+
 # Discord Bot 本体
 TOKEN = os.environ.get("DISCORD_TOKEN")
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
