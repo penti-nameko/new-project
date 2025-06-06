@@ -7,6 +7,11 @@ from flask import Flask, request
 import asyncio
 import signal
 
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+    print("スラッシュコマンドを同期しました。")
+
 
 intents = discord.Intents.default()
 intents.guilds = True
@@ -65,13 +70,8 @@ def index():
     return "OK", 200
 
 @bot.tree.command(name="ping", description="Pong を返します")
-async def ping_command(interaction: discord.Interaction):
-    await interaction.response.send_message("🏓 Pong!", ephemeral=True)
-
-@bot.event
-async def on_ready():
-    await bot.tree.sync()
-    print("コマンドを同期しました")
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message("🏓 Pong!")
 
 
 # ✅ Intents の設定（ここが追加点）
