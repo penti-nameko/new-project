@@ -1,22 +1,30 @@
 import discord
 from discord.ext import commands
 import os
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# トークンは環境変数から取得
-TOKEN = os.environ.get("DISCORD_TOKEN")
+# ==========================
+# HTTPサーバー（ヘルスチェック用）
+# ==========================
 
-# Botのプレフィックス（コマンドの頭文字）を指定
-bot = commands.Bot(command_prefix="!")
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
 
-# Botが準備完了したときに呼ばれるイベント
-@bot.event
-async def on_ready():
-    print(f"Bot is ready. Logged in as {bot.user.name} ({bot.user.id})")
+def start_health_server():
+    port = int(os.environ.get("PORT", 8080))  # KoyebはPORT環境変数を使う
+    server = HTTPServer(("", port), HealthCheckHandler)
+    print(f"Health check server running on port {port}")
+    server.serve_forever()
 
-# !ping と入力されたときに反応するコマンド
-@bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+# 別スレッドで起動
+threading.Thread(target=start_health_server, daemon=True).start()
 
-# Botを実行
-if __name__ == "__main
+# ==========================
+# Discord Bot部分
+# ==========================
+
+TOKEN = os.env
