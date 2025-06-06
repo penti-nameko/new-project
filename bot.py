@@ -3,6 +3,8 @@ from discord.ext import commands
 import os
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from flask import Flask, request
+
 
 # ヘルスチェック用のHTTPサーバー
 class HealthCheckHandler(BaseHTTPRequestHandler):
@@ -18,6 +20,14 @@ def start_health_server():
     server.serve_forever()
 
 threading.Thread(target=start_health_server, daemon=True).start()
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "HEAD"])
+def index():
+    if request.method == "HEAD":
+        return "", 200
+    return "OK", 200
 
 # ✅ Intents の設定（ここが追加点）
 intents = discord.Intents.default()
