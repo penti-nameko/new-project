@@ -1,1 +1,1 @@
-worker: python disbot_koyeb.py
+web: python bot.py
