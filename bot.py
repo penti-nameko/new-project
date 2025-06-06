@@ -33,6 +33,16 @@ async def send_content(channel: discord.abc.Messageable, message: str = None, fi
     else:
         await channel.send(content=message or None, files=files if files else None)
 
+@bot.event
+async def on_ready():
+    print(f"[INFO] Bot Online: {bot.user}")
+    await bot.change_presence(activity=discord.Game(name="/help_me でコマンドを見る"))
+    
+    # 🔽 コマンドを同期する
+    synced = await bot.tree.sync()
+    print(f"[INFO] Synced {len(synced)} command(s) to Discord.")
+
+
 # --- 起動時ログ（"ログ"チャンネルを検索） ---
 
 @bot.event
